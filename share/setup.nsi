@@ -45,13 +45,13 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile bluecoin-1.0.1-win32-setup.exe
+OutFile bluecoin-1.0.2-win32-setup.exe
 InstallDir $PROGRAMFILES\BlueCoin
 CRCCheck on
 XPStyle on
 BrandingText " "
 ShowInstDetails show
-VIProductVersion 1.0.1.0
+VIProductVersion 1.0.2.0
 VIAddVersionKey ProductName BlueCoin
 VIAddVersionKey ProductVersion "${VERSION}"
 VIAddVersionKey CompanyName "${COMPANY}"

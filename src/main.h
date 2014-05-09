@@ -37,9 +37,9 @@ static const int64 MAX_MONEY2 = 1000000000 * COIN;			// 1 bil
 static const int64 CIRCULATION_MONEY = MAX_MONEY2;
 static const double TAX_PERCENTAGE = 0.03;
 static const int64 MAX_MINT_PROOF_OF_STAKE = 0.03 * COIN;	// 3% annual interest
-
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
-
+static const int CUTOFF_POW_BLOCK = 100000;
+static const int CUTOFF_POS_BLOCK = 100000;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC

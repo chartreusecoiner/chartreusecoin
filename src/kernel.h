@@ -35,3 +35,6 @@ unsigned int GetStakeModifierChecksum(const CBlockIndex* pindex);
 bool CheckStakeModifierCheckpoints(int nHeight, unsigned int nStakeModifierChecksum);
 
 #endif // PPCOIN_KERNEL_H
+
+// Get time weight using supplied timestamps
+int64 GetWeight(int64 nIntervalBeginning, int64 nIntervalEnd);

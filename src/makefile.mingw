@@ -3,7 +3,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 USE_UPNP:=0
-USE_IPV6:=1
+USE_IPV6:=0
 
 INCLUDEPATHS= \
  -I"C:\boost_1_53_0" \

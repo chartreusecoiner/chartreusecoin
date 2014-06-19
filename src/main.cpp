@@ -488,7 +488,7 @@ bool CTransaction::CheckTransaction() const
 
     if (IsCoinBase())
     {
-        if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 100)
+        if (vin[0].scriptSig.size() < 2 || vin[0].scriptSig.size() > 200)
             return DoS(100, error("CTransaction::CheckTransaction() : coinbase script size"));
     }
     else
@@ -2025,11 +2025,6 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot) const
     // These are checks that are independent of context
     // that can be verified before saving an orphan block.
 
-	// blacklist block 38847 of old chain
-	// keep it for another version, can be removed once blockchain stablized
-	if (GetHash() == uint256("0x0000000138efd2ac0c90f8cd1c17cf29e07686f9108778d29b9e38228bdc502e"))
-    return error("CheckBlock() 38847: hash == 0000000138efd2ac0c90f8cd1c17cf29e07686f9108778d29b9e38228bdc502e");
-	 
     // Size limits
     if (vtx.empty() || vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
         return DoS(100, error("CheckBlock() : size limits failed"));

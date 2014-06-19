@@ -10,6 +10,7 @@
 #include "net.h"
 #include "script.h"
 #include "scrypt_mine.h"
+#include "hashblock.h"
 
 #include <list>
 
@@ -40,6 +41,7 @@ static const int64 MAX_MINT_PROOF_OF_STAKE = 0.03 * COIN;	// 3% annual interest
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 static const int CUTOFF_POW_BLOCK = 100000;
 static const int CUTOFF_POS_BLOCK = 100000;
+static const int X11_CUTOFF_TIME = 1403395200;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
@@ -909,14 +911,21 @@ public:
 
     uint256 GetHash() const
     {
-        uint256 thash;
-        void * scratchbuff = scrypt_buffer_alloc();
+		if (nTime < X11_CUTOFF_TIME)
+		{
+			uint256 thash;
+			void * scratchbuff = scrypt_buffer_alloc();
 
-        scrypt_hash(CVOIDBEGIN(nVersion), sizeof(block_header), UINTBEGIN(thash), scratchbuff);
+			scrypt_hash(CVOIDBEGIN(nVersion), sizeof(block_header), UINTBEGIN(thash), scratchbuff);
 
-        scrypt_buffer_free(scratchbuff);
+			scrypt_buffer_free(scratchbuff);
 
-        return thash;
+			return thash;
+		}
+		else
+		{
+			return Hash9(BEGIN(nVersion), END(nNonce));
+		}
     }
 
     int64 GetBlockTime() const

@@ -511,3 +511,4 @@ void SendCoinsDialog::coinControlUpdateLabels()
        ui->widgetCoinControl->hide();
        ui->labelCoinControlInsuffFunds->hide();
    }
+}

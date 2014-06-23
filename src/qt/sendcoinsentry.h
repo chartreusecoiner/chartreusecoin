@@ -35,6 +35,7 @@ public:
 
 public slots:
     void setRemoveEnabled(bool enabled);
+    void payAmountChanged();
     void clear();
 
 signals:

@@ -43,7 +43,7 @@ static CBigNum bnProofOfStakeLimitTestNet(~uint256(0) >> 20);
 
 unsigned int nStakeMinAge = 60 * 60 * 24 * 2;	// minimum age for coin age: 2d
 unsigned int nStakeMaxAge = 60 * 60 * 24 * 100;	// stake age of full weight: -1
-unsigned int nStakeTargetSpacing = 90;			// 90 sec block spacing
+unsigned int nStakeTargetSpacing = 60;			// 60 sec block spacing
 
 int64 nChainStartTime = 1398199027;
 int nCoinbaseMaturity = 350;
@@ -935,8 +935,7 @@ int generateMTRandom(unsigned int s, int range)
 
 
 
-static const int64 nMinSubsidy = 10 * COIN;
-static const int CUTOFF_HEIGHT = 100000;	// Height at the end of 5 weeks
+static const int64 nMinSubsidy = 25 * COIN;
 // miner's coin base reward based on nBits
 int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 {
@@ -957,8 +956,15 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
     {
         nSubsidy = rand * COIN;
     }
-    
-	else if(nHeight > CUTOFF_HEIGHT)
+    else if(nHeight >= 50000 && nHeight < 525600)
+    {
+        nSubsidy = 100 * COIN;
+    }
+	else if(nHeight >= 525600 && nHeight < 1051200)
+    {
+        nSubsidy = 50 * COIN;
+    }
+	else if(nHeight >= 1051200)
 	{
 		return nMinSubsidy + nFees;
 	}
@@ -968,19 +974,19 @@ int64 GetProofOfWorkReward(int nHeight, int64 nFees, uint256 prevHash)
 
 // miner's coin stake reward based on nBits and coin age spent (coin-days)
 // simple algorithm, not depend on the diff
-const int YEARLY_BLOCKCOUNT = 350400;	// 365 * 2880
+const int YEARLY_BLOCKCOUNT = 525600;	// 365 * 1440
 int64 GetProofOfStakeReward(int64 nCoinAge, unsigned int nBits, unsigned int nTime, int nHeight)
 {
     int64 nRewardCoinYear;
 
-	nRewardCoinYear = MAX_MINT_PROOF_OF_STAKE;
+	nRewardCoinYear = 1.5 * MIN_MINT_PROOF_OF_STAKE;
 
-	if(nHeight < 2 * YEARLY_BLOCKCOUNT)
-		nRewardCoinYear = 1 * MAX_MINT_PROOF_OF_STAKE;
-	else if(nHeight < (4 * YEARLY_BLOCKCOUNT))
-		nRewardCoinYear = 1 * MAX_MINT_PROOF_OF_STAKE;
-	else if(nHeight < (25 * YEARLY_BLOCKCOUNT))
-		nRewardCoinYear = 1 * MAX_MINT_PROOF_OF_STAKE;
+	if(nHeight < 1 * YEARLY_BLOCKCOUNT)
+		nRewardCoinYear = 5 * MIN_MINT_PROOF_OF_STAKE;
+	else if(nHeight < (2 * YEARLY_BLOCKCOUNT))
+		nRewardCoinYear = 3 * MIN_MINT_PROOF_OF_STAKE;
+	//else if(nHeight < (3 * YEARLY_BLOCKCOUNT))
+	//	nRewardCoinYear = 2 * MIN_MINT_PROOF_OF_STAKE;
 
     int64 nSubsidy = nCoinAge * nRewardCoinYear / 365;
 
@@ -2114,8 +2120,8 @@ bool CBlock::AcceptBlock()
         return DoS(10, error("AcceptBlock() : prev block not found"));
     CBlockIndex* pindexPrev = (*mi).second;
     int nHeight = pindexPrev->nHeight+1;
-	if (IsProofOfWork() && nHeight > CUTOFF_POW_BLOCK)
-        return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
+	//if (IsProofOfWork() && nHeight > CUTOFF_POW_BLOCK)
+    //    return DoS(100, error("AcceptBlock() : No proof-of-work allowed anymore (height = %d)", nHeight));
     if (IsProofOfStake() && nHeight < CUTOFF_POS_BLOCK)
         return DoS(100, error("AcceptBlock() : No proof-of-stake allowed yet (height = %d)", nHeight));
     // Check proof-of-work or proof-of-stake

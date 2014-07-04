@@ -6,7 +6,7 @@
 
 #define DISPLAY_VERSION_MAJOR       1
 #define DISPLAY_VERSION_MINOR       1
-#define DISPLAY_VERSION_REVISION    2
+#define DISPLAY_VERSION_REVISION    3
 #define DISPLAY_VERSION_BUILD       0
 
 #include "clientversion.h"

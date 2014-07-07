@@ -11,6 +11,7 @@ using namespace std;
 
 extern int nStakeMaxAge;
 extern int nStakeTargetSpacing;
+extern int nStakeTargetSpacing2;
 
 // Modifier interval: time to elapse before new modifier is computed
 // Set to 3-hour for production network and 20-minute for test network

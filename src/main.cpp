@@ -1047,11 +1047,10 @@ const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfSta
     return pindex;
 }
 
-
-unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, bool fProofOfStake) {
-    /* current difficulty formula, DarkGravity v3, written by Evan Duffield - evan@darkcoin.io */
-    const CBlockIndex *BlockLastSolved = GetLastBlockIndex(pindexLast, fProofOfStake);;
-    const CBlockIndex *BlockReading = GetLastBlockIndex(pindexLast, fProofOfStake);;
+unsigned int static DarkGravityWave4(const CBlockIndex* pindexLast, bool fProofOfStake) {
+    /* DarkGravity v4, modified for BLU */
+    const CBlockIndex *BlockLastSolved = GetLastBlockIndex(pindexLast, fProofOfStake);
+    const CBlockIndex *BlockReading = GetLastBlockIndex(pindexLast, fProofOfStake);
     int64 nActualTimespan = 0;
     int64 LastBlockTime = 0;
     int64 PastBlocksMin = 24;
@@ -1060,12 +1059,27 @@ unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, bool fProofO
     CBigNum PastDifficultyAverage;
     CBigNum PastDifficultyAveragePrev;
 
+	if (BlockLastSolved->nHeight > 122000)
+	{
+		PastBlocksMin = 12;
+		PastBlocksMax = 12;
+	}
+	
     if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || BlockLastSolved->nHeight < PastBlocksMin) { 
         return bnProofOfWorkLimit.GetCompact(); 
     }
         
     for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
-        if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
+        if (BlockLastSolved->nHeight > 122000)
+		{
+			while (BlockReading->IsProofOfStake() != fProofOfStake)
+			{
+				if (BlockReading->pprev == NULL) { assert(BlockReading); break; }
+				BlockReading = BlockReading->pprev;
+			}
+		}
+		
+		if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
         CountBlocks++;
 
         if(CountBlocks <= PastBlocksMin) {
@@ -1097,9 +1111,16 @@ unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, bool fProofO
     bnNew *= nActualTimespan;
     bnNew /= nTargetTimespan;
 
-    if (bnNew > bnProofOfWorkLimit){
-        bnNew = bnProofOfWorkLimit;
+    if (fProofOfStake)
+	{
+		if (bnNew > bnProofOfStakeLimit)
+			bnNew = bnProofOfStakeLimit;
     }
+	else
+	{
+		if (bnNew > bnProofOfWorkLimit)
+			bnNew = bnProofOfWorkLimit;
+	}
      
     return bnNew.GetCompact();
 }
@@ -1124,8 +1145,10 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
     if (pindexPrevPrev->pprev == NULL)
         return bnTargetLimit.GetCompact(); // second block
 
-	if (pindexPrev->nHeight > 113000)
-		return DarkGravityWave3(pindexLast, fProofOfStake);
+	if (pindexPrev->nHeight > 122000 && !fProofOfStake)
+		return DarkGravityWave4(pindexLast, fProofOfStake);
+	else if (pindexPrev->nHeight > 113000 && pindexPrev->nHeight <= 122000)
+		return DarkGravityWave4(pindexLast, fProofOfStake);
 	else
 	{
 		int64 nActualSpacing = pindexPrev->GetBlockTime() - pindexPrevPrev->GetBlockTime();

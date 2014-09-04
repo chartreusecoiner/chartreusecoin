@@ -1059,7 +1059,7 @@ unsigned int static DarkGravityWave4(const CBlockIndex* pindexLast, bool fProofO
     CBigNum PastDifficultyAverage;
     CBigNum PastDifficultyAveragePrev;
 
-	if (BlockLastSolved->nHeight > 122000)
+	if (BlockLastSolved->nHeight > 117500)
 	{
 		PastBlocksMin = 12;
 		PastBlocksMax = 12;
@@ -1070,7 +1070,7 @@ unsigned int static DarkGravityWave4(const CBlockIndex* pindexLast, bool fProofO
     }
         
     for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
-        if (BlockLastSolved->nHeight > 122000)
+        if (BlockLastSolved->nHeight > 117500)
 		{
 			while (BlockReading->IsProofOfStake() != fProofOfStake)
 			{
@@ -1145,9 +1145,9 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
     if (pindexPrevPrev->pprev == NULL)
         return bnTargetLimit.GetCompact(); // second block
 
-	if (pindexPrev->nHeight > 122000 && !fProofOfStake)
+	if (pindexPrev->nHeight > 117500 && !fProofOfStake)
 		return DarkGravityWave4(pindexLast, fProofOfStake);
-	else if (pindexPrev->nHeight > 113000 && pindexPrev->nHeight <= 122000)
+	else if (pindexPrev->nHeight > 113000 && pindexPrev->nHeight <= 117500)
 		return DarkGravityWave4(pindexLast, fProofOfStake);
 	else
 	{

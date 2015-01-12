@@ -1,19 +1,19 @@
-.TH bluecoin.CONF "8" "April 2013" "bluecoin.conf 3.19"
+.TH chartreusecoin.CONF "8" "April 2013" "chartreusecoin.conf 3.19"
 .SH NAME
-bluecoin.conf \- bluecoin configuration file
+chartreusecoin.conf \- chartreusecoin configuration file
 .SH SYNOPSIS
 All command-line options (except for '-datadir' and '-conf') may be specified in a configuration file, and all configuration file options may also be specified on the command line. Command-line options override values set in the configuration file.
 .TP
 The configuration file is a list of 'setting=value' pairs, one per line, with optional comments starting with the '#' character.
 .TP
-The configuration file is not automatically created; you can create it using your favorite plain-text editor. By default, bluecoind(1) will look for a file named bluecoin.conf(5) in the bluecoin data directory, but both the data directory and the configuration file path may be changed using the '-datadir' and '-conf' command-line arguments.
+The configuration file is not automatically created; you can create it using your favorite plain-text editor. By default, chartreusecoind(1) will look for a file named chartreusecoin.conf(5) in the chartreusecoin data directory, but both the data directory and the configuration file path may be changed using the '-datadir' and '-conf' command-line arguments.
 .SH LOCATION
-bluecoin.conf should be located in $HOME/.bluecoin
+chartreusecoin.conf should be located in $HOME/.chartreusecoin
 .SH NETWORK-RELATED SETTINGS
 .TP
 .TP
 \fBtestnet=\fR[\fI'1'\fR|\fI'0'\fR]
-Enable or disable run on the test network instead of the real *bluecoin* network.
+Enable or disable run on the test network instead of the real *chartreusecoin* network.
 .TP
 \fBproxy=\fR\fI'127.0.0.1:9050'\fR
 Connect via a socks4 proxy.
@@ -32,7 +32,7 @@ Maximum number of inbound+outbound connections.
 .SH JSON-RPC OPTIONS
 .TP
 \fBserver=\fR[\fI'1'\fR|\fI'0'\fR]
-Tells *bluecoin* to accept or not accept JSON-RPC commands.
+Tells *chartreusecoin* to accept or not accept JSON-RPC commands.
 .TP
 \fBrpcuser=\fR\fI'username'\fR
 You must set *rpcuser* to secure the JSON-RPC api.
@@ -41,7 +41,7 @@ You must set *rpcuser* to secure the JSON-RPC api.
 You must set *rpcpassword* to secure the JSON-RPC api.
 .TP
 \fBrpctimeout=\fR\fI'30'\fR
-How many seconds *bluecoin* will wait for a complete RPC HTTP request, after the HTTP connection is established.
+How many seconds *chartreusecoin* will wait for a complete RPC HTTP request, after the HTTP connection is established.
 .TP
 \fBrpcallowip=\fR\fI'192.168.1.*'\fR
 By default, only RPC connections from localhost are allowed. Specify as many *rpcallowip=* settings as you like to allow connections from other hosts (and you may use * as a wildcard character).
@@ -50,10 +50,10 @@ By default, only RPC connections from localhost are allowed. Specify as many *rp
 Listen for RPC connections on this TCP port.
 .TP
 \fBrpcconnect=\fR\fI'127.0.0.1'\fR
-You can use *bluecoin* or *bluecoind(1)* to send commands to *bluecoin*/*bluecoind(1)* running on another host using this option.
+You can use *chartreusecoin* or *chartreusecoin(1)* to send commands to *chartreusecoin*/*chartreusecoin(1)* running on another host using this option.
 .TP
 \fBrpcssl=\fR\fI'1'\fR
-Use Secure Sockets Layer (also known as TLS or HTTPS) to communicate with *bluecoin* '-server' or *ehitecoind(1)*. Example of OpenSSL settings used when *rpcssl*='1':
+Use Secure Sockets Layer (also known as TLS or HTTPS) to communicate with *chartreusecoin* '-server' or *ehitecoind(1)*. Example of OpenSSL settings used when *rpcssl*='1':
 .TP
 \fBrpcsslciphers=\fR\fI'TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH'\fR
 .TP
@@ -70,7 +70,7 @@ Enable or disable attempt to generate bluecoins.
 Pre-generate this many public/private key pairs, so wallet backups will be valid for both prior transactions and several dozen future transactions.
 .TP
 \fBpaytxfee=\fR\fI'0.00'\fR
-Pay an optional transaction fee every time you send bluecoins. Transactions with fees are more likely than free transactions to be included in generated blocks, so may be validated sooner.
+Pay an optional transaction fee every time you send chartreusecoin. Transactions with fees are more likely than free transactions to be included in generated blocks, so may be validated sooner.
 .TP
 \fBallowreceivebyip=\fR\fI'1'\fR
 Allow direct connections for the 'pay via IP address' feature.
@@ -78,12 +78,12 @@ Allow direct connections for the 'pay via IP address' feature.
 .SH USER INTERFACE OPTIONS
 .TP
 \fBmin=\fR[\fI'0'\fR|\fI'1'\fR]
-Enable or disable start bluecoind minimized.
+Enable or disable start chartreusecoind minimized.
 .TP
 \fBminimizetotray=\fR[\fI'0'\fR|\fI'1'\fR]
 Enable or disable minimize to the system tray.
 .SH "SEE ALSO"
-bluecoind(1)
+chartreusecoind(1)
 .SH AUTHOR
 This manual page was written by Micah Anderson <micah@debian.org> for the Debian system (but may be used by others). Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 or any later version published by the Free Software Foundation.
 
